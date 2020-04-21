@@ -1,0 +1,89 @@
+unit uTUsuariosLog;
+
+interface
+
+uses Classes, contnrs, uUsuarioLog;
+
+type
+  TUsuariosLog = class(TObject)
+  private
+    FListaUsuarios: TObjectList;
+
+    function existeUsuario(IdUsuario: string): boolean;
+    function obtenerUsuario(id: integer): TUsuarioLog;
+    function getCantidad: integer;
+  public
+    constructor create;
+    destructor destroy; override;
+
+    procedure AgregarEvento(IdUsuario, Nombre, Evento: string);
+    function Usuario(IdUsuario: string): TUsuarioLog;
+  published
+    property Cantidad: integer read getCantidad;
+  end;
+
+implementation
+
+{ TUsuariosLog }
+
+procedure TUsuariosLog.AgregarEvento(IdUsuario, Nombre, Evento: string);
+begin
+  if existeUsuario(IdUsuario) then
+  begin
+    obtenerUsuario()
+  end;
+end;
+
+constructor TUsuariosLog.create;
+begin
+  FListaUsuarios := TObjectList.create;
+end;
+
+destructor TUsuariosLog.destroy;
+begin
+  FListaUsuarios.Free;
+  inherited destroy;
+end;
+
+function TUsuariosLog.existeUsuario(IdUsuario: string): boolean;
+var
+  i: integer;
+begin
+  Result := false;
+
+  for i := 1 to Cantidad do
+  begin
+    if obtenerUsuario(i - 1).IdUsuario = IdUsuario then
+    begin
+      Result := true;
+      exit;
+    end;
+  end;
+end;
+
+function TUsuariosLog.getCantidad: integer;
+begin
+  Result := FListaUsuarios.Count;
+end;
+
+function TUsuariosLog.obtenerUsuario(id: integer): TUsuarioLog;
+begin
+  Result := FListaUsuarios.Items[id] as TUsuarioLog;
+end;
+
+function TUsuariosLog.Usuario(IdUsuario: string): TUsuarioLog;
+var
+  i: integer;
+begin
+  Result := nil;
+  for i := 1 to Cantidad do
+  begin
+    if obtenerUsuario(i - 1).IdUsuario = IdUsuario then
+    begin
+      Result := obtenerUsuario(i - 1);
+      exit;
+    end;
+  end;
+end;
+
+end.

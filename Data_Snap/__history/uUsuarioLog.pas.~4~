@@ -1,0 +1,45 @@
+unit uUsuarioLog;
+
+interface
+
+uses Classes, System.JSON;
+
+type
+  TUsuarioLog = class(Tobject)
+  private
+    FListaEventos: TStringList;
+  public
+    constructor create;
+    destructor destroy; override;
+
+    procedure agregarEvento(ss: string);
+    function obtenerEvento(id: integer): Tjsonobject;
+  published
+  end;
+
+implementation
+
+{ TUsuarioLog }
+
+procedure TUsuarioLog.agregarEvento(ss: string);
+begin
+
+end;
+
+constructor TUsuarioLog.create;
+begin
+  FListaEventos := TStringList.create;
+end;
+
+destructor TUsuarioLog.destroy;
+begin
+  FListaEventos.Free;
+  inherited destroy;
+end;
+
+function TUsuarioLog.obtenerEvento(id: integer): Tjsonobject;
+begin
+  Result := Tjsonobject.ParseJSONValue(FListaEventos[id]) as Tjsonobject;
+end;
+
+end.
