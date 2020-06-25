@@ -140,13 +140,7 @@ type
     procedure TableOfContents;
     procedure agregarCodigo(codigo: TStrings; nombre: string);
     procedure defineLenguaje(ext: string);
-    procedure defineLenguajeHTML;
-    procedure defineLenguajeTypeScript;
-    procedure defineLenguajeCss;
-    procedure defineLenguajePascal;
-    procedure defineColoresLenguajes;
-
-    procedure guardarCopia;
+    procedure defineLenguajeHTMLCssJs;
 
     procedure exportarDocumento(ss: string; handle: HWND; verPdf: boolean);
     procedure exportarCompilar(ss: string);
@@ -190,39 +184,25 @@ begin
 
   ext := ExtractFileExt(nombre);
 
-  if (ext = '.html') then
+  if (ext = '.html') or (ext = '.ts') or (ext = '.js') or (ext = '.css') then
   begin
-    Archivo.Add('\lstset{mathescape, language=HTML5, style=Html5}');
+    Archivo.Add('\lstset{mathscape=true, language=HTML5, style=HtmlCssJs}');
     Archivo.Add('{\scriptsize{}');
-    Archivo.Add('\begin{lstlisting}');
-  end;
-
-  if (ext = '.css') then
-  begin
-    Archivo.Add('\lstset{mathescape, language=CSS, style=Css}');
-    Archivo.Add('{\scriptsize{}');
-    Archivo.Add('\begin{lstlisting}');
-  end;
-
-  if (ext = '.ts') or ((ext = '.js')) then
-  begin
-    Archivo.Add('\lstset{mathescape, language=TYPESCRIPT, style=TypeScript}');
-    Archivo.Add('{\scriptsize{}');
-    Archivo.Add('\begin{lstlisting}');
+    Archivo.Add('\begin{lstlisting}[language=HTML5]');
   end;
 
   if (ext = '.pas') or (ext = '.dpr') then
   begin
-    Archivo.Add('\lstset{mathscape=true, language=PASCAL, style=Pascal}');
+    Archivo.Add('\lstset{mathscape=true, language=Pascal}');
     Archivo.Add('{\scriptsize{}');
-    Archivo.Add('\begin{lstlisting}');
+    Archivo.Add('\begin{lstlisting}[language=Pascal]');
   end;
 
   if ext = '.sql' then
   begin
     Archivo.Add('\lstset{language=SQL}');
     Archivo.Add('{\scriptsize{}');
-    Archivo.Add('\begin{lstlisting}');
+    Archivo.Add('\begin{lstlisting}[language=SQL]');
   end;
 
   Archivo.AddStrings(codigo);
@@ -296,8 +276,14 @@ begin
   Archivo.Add('');
 end;
 
-procedure TLatexExporter.defineColoresLenguajes;
+procedure TLatexExporter.defineLenguaje(ext: string);
 begin
+  Archivo.Add('');
+end;
+
+procedure TLatexExporter.defineLenguajeHTMLCssJs;
+begin
+  Archivo.Add('');
   Archivo.Add('\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}');
   Archivo.Add('\definecolor{darkgray}{rgb}{0.4, 0.4, 0.4}');
   Archivo.Add('\definecolor{editorGray}{rgb}{0.95, 0.95, 0.95}');
@@ -312,87 +298,7 @@ begin
   Archivo.Add('\definecolor{lightblue}{rgb}{0.1,0.57,0.7}');
   Archivo.Add('\definecolor{lightred}{rgb}{1,0.4,0.5}');
   Archivo.Add('\usepackage{upquote}');
-end;
-
-procedure TLatexExporter.defineLenguaje(ext: string);
-begin
   Archivo.Add('');
-end;
-
-procedure TLatexExporter.defineLenguajeCss;
-begin
-  Archivo.Add('');
-
-  Archivo.Add('\lstdefinelanguage{CSS}{');
-  Archivo.Add('  language=html,');
-  Archivo.Add('  sensitive=false,	');
-  Archivo.Add('  alsoletter={<>=-},	');
-  Archivo.Add('  morecomment=[s]{/*}{*/},');
-  Archivo.Add('  tag=[s],');
-  Archivo.Add('  otherkeywords={>,<!DOCTYPE,</html, <html,<hr,<app-root,' +
-    '</app-root, <head, <title, </title, <style, </style, <link, </head, ' +
-    '<meta, />, </body, <body, </div, <div, </div>, </p, <p, </p>, </script,' +
-    ' <script,<canvas, /canvas>, <svg, <rect, <animateTransform, </rect>, ' +
-    '</svg>, <video, <source, <iframe, </iframe>, </video>, <image, </image>,' +
-    ' <header, </header, <article, </article');
-  Archivo.Add('  },');
-
-  Archivo.Add('  ndkeywords={=,charset=, lang=, src=, id=, width=, ' +
-    'height=, style=, type=, rel=, href=,class=,fill=, attributeName=, ' +
-    'begin=, dur=, from=, to=, poster=, controls=, x=, y=, repeatCount=, ' +
-    'xlink:href=,margin:, padding:, background-image:, border:, top:, left:,' +
-    ' position:, width:, height:, margin-top:, margin-bottom:, font-size:, ' +
-    'line-height:,transform:, -moz-transform:, -webkit-transform:,animation:,' +
-    ' -webkit-animation:,transition:,  transition-duration:, transition-property:,'
-    + ' transition-timing-function:,');
-  Archivo.Add('  }');
-
-  Archivo.Add('}');
-  Archivo.Add('');
-  Archivo.Add('\lstdefinestyle{Css} {%');
-  Archivo.Add('  % General design');
-  Archivo.Add('  basicstyle={\footnotesize\ttfamily},   ');
-  Archivo.Add('  frame=b,');
-  Archivo.Add('  % line-numbers');
-  Archivo.Add('  xleftmargin={0.75cm},');
-  Archivo.Add('  numbers=left,');
-  Archivo.Add('  stepnumber=1,');
-  Archivo.Add('  firstnumber=1,');
-  Archivo.Add('  numberfirstline=true,	');
-  Archivo.Add('  % Code design');
-  Archivo.Add('  identifierstyle=\color{black},');
-  Archivo.Add('  keywordstyle=\color{black}\bfseries,');
-  Archivo.Add('  ndkeywordstyle=\color{editorGreen}\bfseries,');
-  Archivo.Add('  stringstyle=\color{blue}\ttfamily,');
-  Archivo.Add('  commentstyle=\color{editorGreen}\ttfamily,');
-  Archivo.Add('  % Code');
-  Archivo.Add('  language=Css,');
-  Archivo.Add('  alsolanguage=Css,');
-  Archivo.Add('  alsodigit={.:;},	');
-  Archivo.Add('  tabsize=2,');
-  Archivo.Add('  showtabs=false,');
-  Archivo.Add('  showspaces=false,');
-  Archivo.Add('  showstringspaces=false,');
-  Archivo.Add('  extendedchars=true,');
-  Archivo.Add('  breaklines=true,');
-  Archivo.Add('  % German umlauts');
-  Archivo.Add('  literate=%');
-  Archivo.Add('  {Ö}{{\"O}}1');
-  Archivo.Add('  {Ä}{{\"A}}1');
-  Archivo.Add('  {Ü}{{\"U}}1');
-  Archivo.Add('  {ß}{{\ss}}1');
-  Archivo.Add('  {ü}{{\"u}}1');
-  Archivo.Add('  {ä}{{\"a}}1');
-  Archivo.Add('  {ö}{{\"o}}1');
-  Archivo.Add('}');
-
-  Archivo.Add('');
-end;
-
-procedure TLatexExporter.defineLenguajeHTML;
-begin
-  Archivo.Add('');
-
   Archivo.Add('\lstdefinelanguage{HTML5}{');
   Archivo.Add('  language=html,');
   Archivo.Add('  sensitive=false,	');
@@ -400,27 +306,28 @@ begin
   Archivo.Add('  morecomment=[s]{<!-}{-->},');
   Archivo.Add('  tag=[s],');
   Archivo.Add('  otherkeywords={>,<!DOCTYPE,</html, <html,<hr,<app-root,' +
-    '</app-root, <head, <title, </title, <style, </style, <link, </head, ' +
-    '<meta, />, </body, <body, </div, <div, </div>, </p, <p, </p>, </script,' +
-    ' <script,<canvas, /canvas>, <svg, <rect, <animateTransform, </rect>, ' +
-    '</svg>, <video, <source, <iframe, </iframe>, </video>, <image, </image>,' +
-    ' <header, </header, <article, </article');
+    '</app-root, <head, <title, </title, <style, </style, <link, </head, <meta,'
+    + ' />, </body, <body, </div, <div, </div>, </p, <p, </p>, </script, <script,'
+    + '<canvas, /canvas>, <svg, <rect, <animateTransform, </rect>, </svg>, <video,'
+    + ' <source, <iframe, </iframe>, </video>, <image, </image>, <header, </header,'
+    + ' <article, </article');
   Archivo.Add('  },');
 
-  Archivo.Add('  ndkeywords={=,charset=, lang=, src=, id=, width=, ' +
-    'height=, style=, type=, rel=, href=,class=,fill=, attributeName=, ' +
-    'begin=, dur=, from=, to=, poster=, controls=, x=, y=, repeatCount=, ' +
-    'xlink:href=,margin:, padding:, background-image:, border:, top:, left:,' +
-    ' position:, width:, height:, margin-top:, margin-bottom:, font-size:, ' +
-    'line-height:,transform:, -moz-transform:, -webkit-transform:,animation:,' +
-    ' -webkit-animation:,transition:,  transition-duration:, transition-property:,'
-    + ' transition-timing-function:,');
+  Archivo.Add('  ndkeywords={=,charset=, lang=, src=, id=, width=, height=,' +
+    ' style=, type=, rel=, href=,class=,fill=, attributeName=, begin=, dur=,' +
+    ' from=, to=, poster=, controls=, x=, y=, repeatCount=, xlink:href=,margin:,'
+    + ' padding:, background-image:, border:, top:, left:, position:, width:,' +
+    ' height:, margin-top:, margin-bottom:, font-size:, line-height:,transform:,'
+    + ' -moz-transform:, -webkit-transform:,animation:, -webkit-animation:,' +
+    'transition:,  transition-duration:, transition-property:, ' +
+    'transition-timing-function:,');
   Archivo.Add('  }');
-
   Archivo.Add('}');
+
   Archivo.Add('');
-  Archivo.Add('\lstdefinestyle{Html5} {%');
+  Archivo.Add('\lstdefinestyle{HtmlCssJs} {%');
   Archivo.Add('  % General design');
+  Archivo.Add('  backgroundcolor=\color{editorGray},');
   Archivo.Add('  basicstyle={\footnotesize\ttfamily},   ');
   Archivo.Add('  frame=b,');
   Archivo.Add('  % line-numbers');
@@ -431,10 +338,10 @@ begin
   Archivo.Add('  numberfirstline=true,	');
   Archivo.Add('  % Code design');
   Archivo.Add('  identifierstyle=\color{black},');
-  Archivo.Add('  keywordstyle=\color{black}\bfseries,');
+  Archivo.Add('  keywordstyle=\color{blue}\bfseries,');
   Archivo.Add('  ndkeywordstyle=\color{editorGreen}\bfseries,');
-  Archivo.Add('  stringstyle=\color{blue}\ttfamily,');
-  Archivo.Add('  commentstyle=\color{editorGreen}\ttfamily,');
+  Archivo.Add('  stringstyle=\color{editorOcher}\ttfamily,');
+  Archivo.Add('  commentstyle=\color{brown}\ttfamily,');
   Archivo.Add('  % Code');
   Archivo.Add('  language=HTML5,');
   Archivo.Add('  alsolanguage=JavaScript,');
@@ -455,116 +362,7 @@ begin
   Archivo.Add('  {ä}{{\"a}}1');
   Archivo.Add('  {ö}{{\"o}}1');
   Archivo.Add('}');
-
   Archivo.Add('');
-end;
-
-procedure TLatexExporter.defineLenguajePascal;
-begin
-  Archivo.Add('\lstdefinelanguage{PASCAL}{');
-  Archivo.Add('  language=Pascal,');
-  Archivo.Add('  sensitive=false,		');
-  Archivo.Add('  morecomment=[l]{//},');
-  Archivo.Add('  morecomment=[s]{\{}{\}},');
-  Archivo.Add('  morestring=[b]' + #39 + ',');
-  Archivo.Add('  morestring=[b]",');
-  Archivo.Add('  tag=[s],');
-  Archivo.Add('  otherkeywords={unit, interface, uses, type, class, private,' +
-    ' string, const, procedure, public, published, constructor, destructor,' +
-    ' override, read, write, property, begin, end, function, implementation,' +
-    ' for, to, do, while, with, if, then, else,var},');
-  Archivo.Add('  ndkeywords={var, unit}');
-  Archivo.Add('}');
-  Archivo.Add('');
-  Archivo.Add('\lstdefinestyle{Pascal} {%');
-  Archivo.Add('  % General design');
-  Archivo.Add('  basicstyle={\footnotesize\ttfamily},   ');
-  Archivo.Add('  frame=b,');
-  Archivo.Add('  % line-numbers');
-  Archivo.Add('  xleftmargin={0.75cm},');
-  Archivo.Add('  numbers=left,');
-  Archivo.Add('  stepnumber=1,');
-  Archivo.Add('  firstnumber=1,');
-  Archivo.Add('  numberfirstline=true,	');
-  Archivo.Add('  % Code design');
-  Archivo.Add('  identifierstyle=\color{black},');
-  Archivo.Add('  keywordstyle=\color{black}\bfseries,');
-  Archivo.Add('  ndkeywordstyle=\color{black}\bfseries,');
-  Archivo.Add('  stringstyle=\color{blue}\ttfamily,');
-  Archivo.Add('  commentstyle=\color{editorGreen}\ttfamily,');
-  Archivo.Add('  % Code');
-  Archivo.Add('  language=Pascal,');
-  Archivo.Add('  alsolanguage=Delphi,');
-  Archivo.Add('  alsodigit={.:;},	');
-  Archivo.Add('  tabsize=2,');
-  Archivo.Add('  showtabs=false,');
-  Archivo.Add('  showspaces=false,');
-  Archivo.Add('  showstringspaces=false,');
-  Archivo.Add('  extendedchars=true,');
-  Archivo.Add('  breaklines=true,');
-  Archivo.Add('  % German umlauts');
-  Archivo.Add('  literate=%');
-  Archivo.Add('  {Ö}{{\"O}}1');
-  Archivo.Add('  {Ä}{{\"A}}1');
-  Archivo.Add('  {Ü}{{\"U}}1');
-  Archivo.Add('  {ß}{{\ss}}1');
-  Archivo.Add('  {ü}{{\"u}}1');
-  Archivo.Add('  {ä}{{\"a}}1');
-  Archivo.Add('  {ö}{{\"o}}1');
-  Archivo.Add('}');
-
-end;
-
-procedure TLatexExporter.defineLenguajeTypeScript;
-begin
-  Archivo.Add('\lstdefinelanguage{TYPESCRIPT}{');
-  Archivo.Add('  language=JavaScript,');
-  Archivo.Add('  sensitive=false,		');
-  Archivo.Add('  morecomment=[l]{//},');
-  Archivo.Add('  morecomment=[s]{/*}{*/},');
-  Archivo.Add('  morestring=[b]' + #39 + ', ');
-  Archivo.Add('  morestring=[b]",');
-  Archivo.Add('  tag=[s],');
-  Archivo.Add
-    ('  otherkeywords={import, export, @, class, implements, string, number, any, this}');
-  Archivo.Add('}');
-  Archivo.Add('');
-  Archivo.Add('\lstdefinestyle{TypeScript} {%');
-  Archivo.Add('  % General design');
-  Archivo.Add('  basicstyle={\footnotesize\ttfamily},   ');
-  Archivo.Add('  frame=b,');
-  Archivo.Add('  % line-numbers');
-  Archivo.Add('  xleftmargin={0.75cm},');
-  Archivo.Add('  numbers=left,');
-  Archivo.Add('  stepnumber=1,');
-  Archivo.Add('  firstnumber=1,');
-  Archivo.Add('  numberfirstline=true,	');
-  Archivo.Add('  % Code design');
-  Archivo.Add('  identifierstyle=\color{black},');
-  Archivo.Add('  keywordstyle=\color{black}\bfseries,');
-  Archivo.Add('  ndkeywordstyle=\color{black}\bfseries,');
-  Archivo.Add('  stringstyle=\color{blue}\ttfamily,');
-  Archivo.Add('  commentstyle=\color{editorGreen}\ttfamily,');
-  Archivo.Add('  % Code');
-  Archivo.Add('  language=TypeScript,');
-  Archivo.Add('  alsolanguage=JavaScript,');
-  Archivo.Add('  alsodigit={.:;},	');
-  Archivo.Add('  tabsize=2,');
-  Archivo.Add('  showtabs=false,');
-  Archivo.Add('  showspaces=false,');
-  Archivo.Add('  showstringspaces=false,');
-  Archivo.Add('  extendedchars=true,');
-  Archivo.Add('  breaklines=true,');
-  Archivo.Add('  % German umlauts');
-  Archivo.Add('  literate=%');
-  Archivo.Add('  {Ö}{{\"O}}1');
-  Archivo.Add('  {Ä}{{\"A}}1');
-  Archivo.Add('  {Ü}{{\"U}}1');
-  Archivo.Add('  {ß}{{\ss}}1');
-  Archivo.Add('  {ü}{{\"u}}1');
-  Archivo.Add('  {ä}{{\"a}}1');
-  Archivo.Add('  {ö}{{\"o}}1');
-  Archivo.Add('}');
 end;
 
 destructor TLatexExporter.destroy;
@@ -717,15 +515,6 @@ begin
   Archivo.Add('');
   Archivo.Add('\GrupoInvestigacion{' + ss + '}');
   Archivo.Add('');
-end;
-
-procedure TLatexExporter.guardarCopia;
-var
-  Encoding: TEncoding;
-begin
-  Encoding := TUTF8Encoding.create;
-  Archivo.SaveToFile(ExtractFilePath(ParamStr(0)) + '\Copia_' +
-    StringReplace(DateToStr(now), '/', '_', [rfReplaceAll]) + '.tex', Encoding);
 end;
 
 procedure TLatexExporter.item(valor: string);

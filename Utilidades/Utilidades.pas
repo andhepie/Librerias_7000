@@ -49,8 +49,117 @@ function ToJSON(nombre, propiedad: string): string;
 function FormatearSimbolosEspecialesLatex(ss: string): string;
 function generarID: string;
 function Comillas(ss: string): string;
+function DevolverDirectorio(ruta: string; cantidad: Integer): string;
+function rutaLocal(ruta: string): string;
+function Abecedario(mayusculas: Boolean): string;
+function StringToTStringList(ss: string): TStringList;
+function StringListToString(ls: TStringList): string;
+function ComponenteAngular(nombre: string): string;
+function StringToID(ss: string): string;
 
 implementation
+
+function StringListToString(ls: TStringList): string;
+var
+  i: Integer;
+begin
+  Result := '';
+  for i := 1 to ls.Count do
+  begin
+    Result := Result + ls[i - 1];
+  end;
+end;
+
+function Abecedario(mayusculas: Boolean): string;
+var
+  letra: string;
+  i: Integer;
+begin
+  { Esta función devuelve una lista con el abecedario, dependiendo del valor de
+    mayusculas la devuelve en mayúsculas o minúsculas }
+
+  Result := '';
+
+  for i := 65 to 90 do
+  begin
+    letra := char(i);
+    if not mayusculas then
+      letra := LowerCase(letra);
+
+    Result := Result + letra;
+  end;
+end;
+
+function StringToTStringList(ss: string): TStringList;
+var
+  i: Integer;
+begin
+  Result := TStringList.Create;
+
+  for i := 1 to Length(ss) do
+    Result.Add(ss[i]);
+end;
+
+function ComponenteAngular(nombre: string): string;
+var
+  i, cont: Integer;
+  sNombre: TStringList;
+  Letras: String;
+begin
+  { Esta función toma un nombre de componente de angular por ejemplo: TipoCategoria
+    y lo convierta a tipo-categoria }
+
+  Result := '';
+
+  sNombre := StringToTStringList(nombre);
+  sNombre[0] := LowerCase(sNombre[0]);
+  Letras := Abecedario(true);
+
+  cont := sNombre.Count;
+  for i := 1 to cont do
+  begin
+    if pos(sNombre[i - 1], Letras) > 0 then
+      Result := Result + '-' + LowerCase(sNombre[i - 1])
+    else
+      Result := Result + sNombre[i - 1];
+  end;
+end;
+
+function StringToID(ss: string): string;
+var
+  ID: string;
+begin
+  ID := StringReplace(ss, '.', 'p', [rfReplaceAll]);
+  ID := StringReplace(ID, '/', 'sl', [rfReplaceAll]);
+  ID := StringReplace(ID, '(', 'a', [rfReplaceAll]);
+  ID := StringReplace(ID, ')', 'b', [rfReplaceAll]);
+  ID := StringReplace(ID, ' ', '-', [rfReplaceAll]);
+  ID := StringReplace(ID, ';', 'q', [rfReplaceAll]);
+  ID := StringReplace(ID, ',', 'c', [rfReplaceAll]);
+
+  Result := LowerCase(ID);
+end;
+
+function rutaLocal(ruta: string): string;
+begin
+  Result := ExtractFilePath(ParamStr(0)) + '\' + ruta;
+end;
+
+function DevolverDirectorio(ruta: string; cantidad: Integer): string;
+var
+  directorio: string;
+  ld, i: Integer;
+begin
+  directorio := ExtractFileDir(ruta);
+
+  for i := 1 to cantidad do
+  begin
+    ld := LastDelimiter('\', directorio);
+    directorio := Copy(directorio, 1, ld - 1);
+  end;
+
+  Result := directorio;
+end;
 
 function Comillas(ss: string): string;
 begin
@@ -150,13 +259,13 @@ var
 begin
   cont := 0;
 
-  for i := 1 to length(pre) do
+  for i := 1 to Length(pre) do
   begin
     if pp = pre[i - 1] then
       inc(cont);
   end;
 
-  for i := 1 to length(con) do
+  for i := 1 to Length(con) do
   begin
     if pp = con[i - 1] then
       inc(cont);
@@ -227,7 +336,7 @@ begin
         if palabras[i - 1] <> '' then
         begin
           pp := StringToUpperCase(palabras[i - 1][1]) + Copy(palabras[i - 1], 2,
-            length(palabras[i - 1]));
+            Length(palabras[i - 1]));
         end;
       end
       else
@@ -240,7 +349,7 @@ begin
         if palabras[i - 1] <> '' then
         begin
           pp := StringToUpperCase(palabras[i - 1][1]) + Copy(palabras[i - 1], 2,
-            length(palabras[i - 1]));
+            Length(palabras[i - 1]));
         end;
       end;
 
@@ -502,7 +611,7 @@ var
   i, cant: Integer;
 begin
   Result := 0;
-  cant := length(sTexto);
+  cant := Length(sTexto);
   for i := 1 to cant do
     if sTexto = ' ' then
       Result := Result + 1;
@@ -559,8 +668,8 @@ function verificarExtension(ssTexto, ssExtension: String): String;
 var
   LongExt: Integer;
 begin
-  LongExt := length(ssExtension);
-  if Copy(ssTexto, length(ssTexto) - LongExt, LongExt) = ssExtension then
+  LongExt := Length(ssExtension);
+  if Copy(ssTexto, Length(ssTexto) - LongExt, LongExt) = ssExtension then
   begin
     Result := ssTexto;
   end
@@ -602,7 +711,7 @@ var
   ssCorreo: String;
 begin
   Result := '';
-  lc := length(contra);
+  lc := Length(contra);
   ssCorreo := UpperCase(correo);
 
   for i := 1 to lc do
@@ -629,7 +738,7 @@ var
   ssCorreo: String;
 begin
   Result := '';
-  lc := length(contra);
+  lc := Length(contra);
   ssCorreo := UpperCase(correo);
 
   for i := 1 to lc do
@@ -703,7 +812,7 @@ begin
   sResult := StringReplace(sResult, ':', '_', [rfReplaceAll]);
   sResult := StringReplace(sResult, ' ', '_', [rfReplaceAll]);
   sResult := StringReplace(sResult, '.', '_', [rfReplaceAll]);
-  Result := Copy(sResult, 1, length(sResult) - 1);
+  Result := Copy(sResult, 1, Length(sResult) - 1);
 end;
 
 function StrToCelda(m, n: Integer): String;

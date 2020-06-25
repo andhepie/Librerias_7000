@@ -146,8 +146,6 @@ type
     procedure defineLenguajePascal;
     procedure defineColoresLenguajes;
 
-    procedure guardarCopia;
-
     procedure exportarDocumento(ss: string; handle: HWND; verPdf: boolean);
     procedure exportarCompilar(ss: string);
   published
@@ -717,15 +715,6 @@ begin
   Archivo.Add('');
   Archivo.Add('\GrupoInvestigacion{' + ss + '}');
   Archivo.Add('');
-end;
-
-procedure TLatexExporter.guardarCopia;
-var
-  Encoding: TEncoding;
-begin
-  Encoding := TUTF8Encoding.create;
-  Archivo.SaveToFile(ExtractFilePath(ParamStr(0)) + '\Copia_' +
-    StringReplace(DateToStr(now), '/', '_', [rfReplaceAll]) + '.tex', Encoding);
 end;
 
 procedure TLatexExporter.item(valor: string);

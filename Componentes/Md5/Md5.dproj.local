@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/06/25 17:56:39.000.053,=rtl.dcp</Transaction>
+    <Transaction>2020/06/25 17:56:46.000.723,=C:\Users\julia\Dropbox\MIS_PROYECTOS\7000_Librerias\Componentes\Md5\uMd5.pas</Transaction>
+    <Transaction>2020/06/25 18:00:52.000.883,=IndyCore.dcp</Transaction>
+    <Transaction>2020/06/25 18:00:52.000.831,=IndySystem.dcp</Transaction>
+    <Transaction>2020/06/25 18:00:52.000.859,=IndyProtocols.dcp</Transaction>
+  </Transactions>
+</BorlandProject>

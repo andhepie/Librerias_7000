@@ -1,0 +1,43 @@
+unit uMd5;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TMD5 = class(TComponent)
+  private
+    function TMD5.getMD5(const fileName: string): string;
+  protected
+    { Protected declarations }
+  public
+    { Public declarations }
+  published
+    { Published declarations }
+  end;
+
+procedure Register;
+
+implementation
+
+function TMD5.getMD5(const fileName: string): string;
+var
+  hashMessageDigest5: TIdHashMessageDigest5;
+begin
+  hashMessageDigest5 := nil;
+  try
+    hashMessageDigest5 := TIdHashMessageDigest5.Create;
+    Result := IdGlobal.IndyLowerCase
+      (hashMessageDigest5.HashStringAsHex(fileName));
+  finally
+    hashMessageDigest5.Free;
+  end;
+end;
+
+procedure Register;
+begin
+  RegisterComponents('Utilidades', [TMD5]);
+end;
+
+end.

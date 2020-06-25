@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2020/06/25 18:01:07.489,=C:\Users\julia\Documents\Curso_Delphi\Unit1.pas</Transaction>
+    <Transaction>2020/06/25 18:02:14.013,C:\Users\julia\Dropbox\MIS_PROYECTOS\7000_Librerias\Componentes\Md5\Example\Unit1.pas=C:\Users\julia\Documents\Curso_Delphi\Unit1.pas</Transaction>
+    <Transaction>2020/06/25 18:02:14.013,C:\Users\julia\Dropbox\MIS_PROYECTOS\7000_Librerias\Componentes\Md5\Example\Unit1.dfm=C:\Users\julia\Documents\Curso_Delphi\Unit1.dfm</Transaction>
+    <Transaction>2020/06/25 18:02:15.952,C:\Users\julia\Dropbox\MIS_PROYECTOS\7000_Librerias\Componentes\Md5\Example\Project1.dproj=C:\Users\julia\Documents\Curso_Delphi\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

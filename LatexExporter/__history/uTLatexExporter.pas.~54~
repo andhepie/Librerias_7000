@@ -146,8 +146,6 @@ type
     procedure defineLenguajePascal;
     procedure defineColoresLenguajes;
 
-    procedure guardarCopia;
-
     procedure exportarDocumento(ss: string; handle: HWND; verPdf: boolean);
     procedure exportarCompilar(ss: string);
   published
@@ -206,7 +204,7 @@ begin
 
   if (ext = '.ts') or ((ext = '.js')) then
   begin
-    Archivo.Add('\lstset{mathescape, language=TYPESCRIPT, style=TypeScript}');
+    Archivo.Add('\lstset{mathescape, language=CSS, style=Css}');
     Archivo.Add('{\scriptsize{}');
     Archivo.Add('\begin{lstlisting}');
   end;
@@ -469,11 +467,10 @@ begin
   Archivo.Add('  morestring=[b]' + #39 + ',');
   Archivo.Add('  morestring=[b]",');
   Archivo.Add('  tag=[s],');
-  Archivo.Add('  otherkeywords={unit, interface, uses, type, class, private,' +
-    ' string, const, procedure, public, published, constructor, destructor,' +
-    ' override, read, write, property, begin, end, function, implementation,' +
-    ' for, to, do, while, with, if, then, else,var},');
-  Archivo.Add('  ndkeywords={var, unit}');
+  Archivo.Add('  morekeywords={unit, interface, uses, type, class, private, ' +
+    'string, const, procedure, public, published, constructor, destructor, ' +
+    'override, read, write, property, begin, end, function, implementation, ' +
+    'for, to, do, while, with, if, then, else,var}');
   Archivo.Add('}');
   Archivo.Add('');
   Archivo.Add('\lstdefinestyle{Pascal} {%');
@@ -493,8 +490,8 @@ begin
   Archivo.Add('  stringstyle=\color{blue}\ttfamily,');
   Archivo.Add('  commentstyle=\color{editorGreen}\ttfamily,');
   Archivo.Add('  % Code');
-  Archivo.Add('  language=Pascal,');
-  Archivo.Add('  alsolanguage=Delphi,');
+  Archivo.Add('  language=TypeScript,');
+  Archivo.Add('  alsolanguage=JavaScript,');
   Archivo.Add('  alsodigit={.:;},	');
   Archivo.Add('  tabsize=2,');
   Archivo.Add('  showtabs=false,');
@@ -512,7 +509,6 @@ begin
   Archivo.Add('  {ä}{{\"a}}1');
   Archivo.Add('  {ö}{{\"o}}1');
   Archivo.Add('}');
-
 end;
 
 procedure TLatexExporter.defineLenguajeTypeScript;
@@ -717,15 +713,6 @@ begin
   Archivo.Add('');
   Archivo.Add('\GrupoInvestigacion{' + ss + '}');
   Archivo.Add('');
-end;
-
-procedure TLatexExporter.guardarCopia;
-var
-  Encoding: TEncoding;
-begin
-  Encoding := TUTF8Encoding.create;
-  Archivo.SaveToFile(ExtractFilePath(ParamStr(0)) + '\Copia_' +
-    StringReplace(DateToStr(now), '/', '_', [rfReplaceAll]) + '.tex', Encoding);
 end;
 
 procedure TLatexExporter.item(valor: string);

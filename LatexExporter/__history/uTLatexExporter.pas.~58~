@@ -724,8 +724,8 @@ var
   Encoding: TEncoding;
 begin
   Encoding := TUTF8Encoding.create;
-  Archivo.SaveToFile(ExtractFilePath(ParamStr(0)) + '\Copia_' +
-    StringReplace(DateToStr(now), '/', '_', [rfReplaceAll]) + '.tex', Encoding);
+  Archivo.SaveToFile(ExtractFilePath(ParamStr(0)) + '\Copia_' + DateToStr(now) +
+    '.tex', Encoding);
 end;
 
 procedure TLatexExporter.item(valor: string);
